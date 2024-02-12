@@ -1,0 +1,93 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cotizador de Seguros</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+    form {
+        margin: 20px auto;
+        width: 300px;
+    }
+    input[type="text"], input[type="number"], select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+    button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+</head>
+<body>
+
+<h1>Cotizador de Seguros</h1> 
+<form id="cotizacionForm">    
+    <label for="edadAsegurado">Edad del Asegurado:</label>
+    <input type="number" id="edadAsegurado" name="edadAsegurado" min="18" required>
+    <label for="esCasado">¿Está casado?</label>
+    <select id="esCasado" name="esCasado" required>
+        <option value="si">Sí</option>
+        <option value="no">No</option>
+    </select>
+    
+    <label for="edadConyuge">Edad del Cónyuge:</label>
+    <input type="number" id="edadConyuge" name="edadConyuge" min="18">
+    
+    <label for="cantidadHijos">Cantidad de Hijos:</label>
+    <input type="number" id="cantidadHijos" name="cantidadHijos" min="0">
+    
+    <label for="NOMBRE">NOMBRE:</label>
+    <input type="name" id="NOMBRE" name="NOMBRE" min="NOMBRE">
+    
+    <button type="button" onclick="calcularCotizacion()">Calcular Cotización</button>
+</form>
+
+<script>
+function calcularCotizacion() {
+    const edadAsegurado = parseInt(document.getElementById('edadAsegurado').value);
+    const esCasado = document.getElementById('esCasado').value === 'si';
+    const edadConyuge = parseInt(document.getElementById('edadConyuge').value);
+    const cantidadHijos = parseInt(document.getElementById('cantidadHijos').value);
+    if (edadAsegurado < 18) {
+        alert('El asegurado debe ser mayor de edad.');
+        return;
+    }
+    let precioBase = 2000; 
+    let recargo = 0;
+    if (edadAsegurado >= 18 && edadAsegurado <= 24) {
+        recargo += 0.1;
+    } else if (edadAsegurado >= 25 && edadAsegurado <= 49) {
+        recargo += 0.2;
+    } else {
+        recargo += 0.3; 
+    }
+    if (esCasado) {
+        recargo += 0.1;
+        if (edadConyuge >= 18 && edadConyuge <= 24) {
+            recargo += 0.1; 
+        } else if (edadConyuge >= 25 && edadConyuge <= 49) {
+            recargo += 0.2;
+        } else {
+            recargo += 0.3;
+        }
+    }
+    recargo += cantidadHijos * 0.2;
+    const precioTotal = precioBase * (1 + recargo);
+    alert(`La cotización del seguro es: Q.${precioTotal.toFixed(2)}`);
+}
+</script>
+
+</body>
+</html>
